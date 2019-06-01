@@ -37,7 +37,8 @@
 	<target name="testar" description="Testar">
 		<junit printsummary="yes" haltonfailure="yes">
 			<classpath location="${build.dir}" />
-			<test name="testes.testValores" haltonfailure="no" todir="${test.dir}">
+			<test name="testes.testValores" haltonfailure="no" todir="${test.dir
+				}">
 				<formatter type="plain" />
 				<formatter type="xml" />
 			</test>
