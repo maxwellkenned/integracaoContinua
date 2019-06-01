@@ -1,0 +1,58 @@
+<project name="posIntegracao" default="main" basedir=".">
+
+	<description>A sample build file for this project</description>
+	<!-- global properties for this build file -->
+	<property name="source.dir" location="src" />
+	<property name="build.dir" location="bin" />
+	<property name="doc.dir" location="doc" />
+	<property name="test.dir" location="testreport" />
+
+	<!-- set up some directories used by this project -->
+	<target name="init" description="setup project directories">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${doc.dir}" />
+		<mkdir dir="${test.dir}" />
+	</target>
+
+	<!-- Compile the java code in src dir into build dir -->
+	<target name="compile" description="compile java sources">
+		<javac srcdir="${source.dir}" destdir="${build.dir}" includeantruntime="true" />
+	</target>
+
+	<!-- Generate javadocs for current project into docs dir -->
+	<target name="doc" description="generate documentation">
+		<javadoc sourcepath="${source.dir}" destdir="${doc.dir}" />
+	</target>
+
+	<!-- Delete the build & doc directories and Emacs backup (*~) files -->
+	<target name="clean" description="tidy up the workspace">
+		<delete dir="${build.dir}" />
+		<delete dir="${doc.dir}" />
+		<delete dir="${test.dir}" />
+		<delete>
+			<fileset defaultexcludes="no" dir="${source.dir}" includes="*/~" />
+		</delete>
+	</target>
+
+	<target name="testar" description="Testar">
+		<junit printsummary="yes" haltonfailure="yes">
+			<classpath location="${build.dir}" />
+			<test name="testes.testValores" haltonfailure="no" todir="${test.dir}">
+				<formatter type="plain" />
+				<formatter type="xml" />
+			</test>
+		</junit>
+	</target>
+
+	<target name="aplicacao" description="aplicação">
+		<jar basedir="bin" destfile="jar/aplicacao.jar" />
+	</target>
+
+	<target name="compileTest" description="compile jUnit Test cases ">
+		<javac srcdir="${test.dir}" destdir="bin" includeantruntime="true" nowarn="yes" debug="true" />
+	</target>
+
+	<target name="main" depends="clean, init, compile, doc, aplicacao, testar, compileTest">
+		<description>Main target</description>
+	</target>
+</project>
